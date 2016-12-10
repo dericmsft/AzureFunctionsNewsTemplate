@@ -1,16 +1,16 @@
-﻿{
+{
   "disabled": false,
   "bindings": [
     {
-      "authLevel": "function",
-      "name": "req",
       "type": "httpTrigger",
-      "direction": "in"
+      "direction": "in",
+      "webHookType": "genericJson",
+      "name": "req"
     },
     {
-      "name": "res",
       "type": "http",
-      "direction": "out"
+      "direction": "out",
+      "name": "res"
     }
   ]
 }
