@@ -23,9 +23,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         triggerId = m.Groups[1].Value
     };
 
-    return returnObject;
-    // return req.CreateResponse(HttpStatusCode.OK, new {
-    //     greeting = $"Hello {data.first} {data.last}!"});
+    return req.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(returnObject));
 }
 
     public class UriId
