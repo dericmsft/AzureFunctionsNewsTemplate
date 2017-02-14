@@ -333,13 +333,13 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                     {
                         if (text[mentionIndex - i] == '.' | text[mentionIndex - i] == '\\' | text[mentionIndex - i] == '>')
                         {
-                            startIndex = mentionIndex - i;
+                            startIndex = mentionIndex - i + 1;
                             break;
                         }
                         else if (text[mentionIndex - i] == ' ')
                         {
                             wordCount = wordCount + 1;
-                            startIndex = mentionIndex - i;
+                            startIndex = mentionIndex - i + 1;
                             i = i + 1;
                             continue;
                         }
