@@ -331,7 +331,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 {
                     while (wordCount < 25)
                     {
-                        if (text[mentionIndex - i] == '.')
+                        if (text[mentionIndex - i] == '.' | text[mentionIndex - i] == '\\' | text[mentionIndex - i] == '>')
                         {
                             startIndex = mentionIndex - i;
                             break;
