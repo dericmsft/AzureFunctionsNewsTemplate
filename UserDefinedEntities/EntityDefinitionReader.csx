@@ -1,10 +1,11 @@
 #load "EntityDefinition.csx"
 
-using System.Collections;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
 public class EntityDefinitionReader
 {
-	private final string connectionString;
+	private readonly string connectionString;
 
 	public EntityDefinitionReader(string connectionString)
 	{
