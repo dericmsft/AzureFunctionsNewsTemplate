@@ -27,7 +27,7 @@ public class EntityDefinitionReader
             {
                 while (reader.Read())
 				{
-					returnObject.Add(new EntityDefinition()
+					returnObject.AddLast(new EntityDefinition()
 					{
 						Regex = reader["regex"].ToString(),
 						EntityType = reader["entityType"].ToString(),
