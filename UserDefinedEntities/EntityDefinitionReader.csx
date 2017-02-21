@@ -16,7 +16,7 @@ public class EntityDefinitionReader
 	{
 		using (SqlConnection connection = new SqlConnection(connectionString))
 		{
-			connection.open();
+			connection.Open();
 
             var command = new SqlCommand("SELECT regex, entityType, entityValue FROM bpst_news.userdefinedentitydefinitions", connection);
 
