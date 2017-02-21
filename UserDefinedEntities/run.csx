@@ -1,6 +1,8 @@
 #r "Newtonsoft.Json"
 
 #load "EntityResult.csx"
+#load "EntityDefinition.csx"
+#load "EntityDefinitionReader.csx"
 
 using System;
 using System.Configuration;
@@ -34,16 +36,16 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     string jsonContent = await req.Content.ReadAsStringAsync();
     dynamic data = JsonConvert.DeserializeObject(jsonContent);
 
-    dynamic regularExpressions;
+    string connectionString;
 
     try
     {
-        regularExpressions = JsonConvert.DeserializeObject(ConfigurationManager.AppSettings["RegularExpressions"]);
+        connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ToString();
     }
     catch (Exception e)
     {
         return req.CreateResponse(HttpStatusCode.BadRequest, new {
-            error = "Error retrieving appsetting 'RegularExpressions'.  Please ensure that the setting is defined and in the correct format. " + e.ToString()});
+            error = "Error retrieving appsetting 'connectionString'.  Please ensure that the setting is defined. " + e.ToString()});
     }
 
     if (data.text == null) {
@@ -56,15 +58,17 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     var textLength = (double) data.text.ToString().Length;
 
-    foreach (dynamic byoEntity in regularExpressions.entities)
+	var entityDefs = new EntityDefinitionReader(connectionString).LoadEntityDefinitions();
+
+    foreach (EntityDefinition byoEntity in entityDefs)
     {
-        var regex = new Regex(byoEntity.regex.ToString(), RegexOptions.IgnoreCase);
+        var regex = new Regex(byoEntity.Regex, RegexOptions.IgnoreCase);
 
         foreach( Match match in regex.Matches(data.text.ToString()))
         {
             var entity = new EntityResult() {
-                value = byoEntity.canonicalValue.ToString(),
-                type = byoEntity.type.ToString(),
+                value = byoEntity.EntityValue,
+                type = byoEntity.EntityType,
                 position = match.Index,
                 positionDocumentPercentage = Math.Max((double) match.Index / textLength, 0.000001),
                 lengthInText = match.Value.Length
