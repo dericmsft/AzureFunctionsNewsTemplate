@@ -6,5 +6,7 @@ public class EntityResult
 
 	public int position { get; internal set; }
 	
+	public double positionDocumentPercentage { get; internal set; }
+
 	public int lengthInText { get; internal set; }
 }

@@ -54,6 +54,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     var resultList = new LinkedList<EntityResult>();
 
+    var textLength = (double) data.text.ToString().Length;
+
     foreach (dynamic byoEntity in regularExpressions.entities)
     {
         var regex = new Regex(byoEntity.regex.ToString(), RegexOptions.IgnoreCase);
@@ -64,6 +66,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 value = byoEntity.canonicalValue.ToString(),
                 type = byoEntity.type.ToString(),
                 position = match.Index,
+                positionDocumentPercentage = Math.Max((double) match.Index / textLength, 0.000001),
                 lengthInText = match.Value.Length
             };
 
