@@ -13,7 +13,11 @@ using Newtonsoft.Json;
 /*
 Configuration:
 NOTE: Regular expression parser is configured to be case-insensitive
-RegularExpressions: {"entities":[{"regex":"Google", "type":"Company", "canonicalValue": "Google, Inc."}]}
+* Add a new Connection String to the web app called "connectionString".  This should point to the bingnews SQL database.
+* Add a new row to the "userdefinedentitydefinitions" table for each regex you want to search with
+** "regex":"Google", "entityType":"Company", "entityValue": "Google, Inc."
+** "regex":"Microsoft", "entityType":"Company", "entityValue": "Microsoft, Inc."
+** etc
 
 Input:
 {
