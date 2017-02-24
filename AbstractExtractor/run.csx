@@ -17,7 +17,6 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     string query = data.query;
     string text = data.text;
 
-    log.Info(text);
     log.Info(query);
 
             ManipulateQuery findWords = new ManipulateQuery();
@@ -52,11 +51,15 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
             }
 
             SearchText searchText = new SearchText();
-            string newAbstract = searchText.AbstractSelector(words, text);
+
+            dynamic newAbstractMatches = searchText.AbstractSelector(words, text);
+
+
 
 
     return req.CreateResponse(HttpStatusCode.OK, new {
-        Snippet = newAbstract
+        Snippet = newAbstractMatches.extract,
+        Matches = newAbstractMatches.items
     });
 
 }
@@ -293,109 +296,142 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     }
 
-    public class SearchText
+public class SearchText
+{
+    public object AbstractSelector(List<string> keyWords, string text)
     {
-        public string AbstractSelector(List<string> keyWords, string text)
+        string snippet = null;
+        bool snippetFlag = false;
+        List<string> matchedWords = new List<string> { };
+
+        foreach (string word in keyWords)
         {
-            string snippet = null;
+            int mentionIndex;
+            int i = 1;
+            int wordCount = 0;
+            int startIndex = 0;
+            int endIndex = 0;
+            int keyWordCount = keyWords.Count();
 
-            foreach (string word in keyWords)
+            Match mention = Regex.Match(text, word, RegexOptions.IgnoreCase);
+             if (Regex.IsMatch(text, word, RegexOptions.IgnoreCase) && snippetFlag == false)
             {
-                int mentionIndex;
-                int i = 1;
-                int wordCount = 0;
-                int startIndex = 0;
-                int endIndex = 0;
-                int keyWordCount = keyWords.Count();
+                matchedWords.Add(word);
+                mentionIndex = mention.Index;
+            }
+            else if (keyWords[keyWordCount - 1] == word  && snippetFlag == false)
+            {
+                if(Regex.IsMatch(text, word, RegexOptions.IgnoreCase))
+                {
+                    matchedWords.Add(word);
+                }
+                mentionIndex = 0;
+            }
+            else if (Regex.IsMatch(text, word, RegexOptions.IgnoreCase) && snippetFlag == true)
+            {
+                matchedWords.Add(word);
+                continue;
+            }
+            else
+            {
+                continue;
 
-                Match mention = Regex.Match(text, word);
-                if (Regex.IsMatch(text, word))
-                {
-                    mentionIndex = mention.Index;
-                }
-                else if(keyWords[keyWordCount - 1] == word)
-                {
-                    mentionIndex = 0;
-                }
-                else
-                {
-                    continue;
-                }
-
-
-                if (mentionIndex == 0)
-                {
-                    startIndex = 0;
-                }
-                else
-                {
-                    while (wordCount < 25)
-                    {
-                        if (text[mentionIndex - i] == '.' | text[mentionIndex - i] == '\\' | text[mentionIndex - i] == '>' | text[mentionIndex - i] == '?' | text[mentionIndex - i] == '!')
-                        {
-                            startIndex = mentionIndex - i + 1;
-                            break;
-                        }
-                        else if (text[mentionIndex - i] == ' ')
-                        {
-                            wordCount = wordCount + 1;
-                            startIndex = mentionIndex - i + 1;
-                            i = i + 1;
-                            continue;
-                        }
-                        else if (mentionIndex - i == 0)
-                        {
-                            startIndex = 0;
-                            break;
-                        }
-                        else
-                        {
-                            i = i + 1;
-                            continue;
-                        }
-                    }
-                }
-
-                i = 1;
-
-                if (wordCount < 25)
-                {
-                    while (wordCount < 25)
-                    {
-                        if (text[mentionIndex + i] == ' ')
-                        {
-                            wordCount = wordCount + 1;
-                            endIndex = mentionIndex + i;
-                            i = i + 1;
-                        }
-                        else if (mentionIndex + i == text.Length - 1)
-                        {
-                            endIndex = mentionIndex + i;
-                            break;
-                        }
-                        else
-                        {
-                            i = i + 1;
-                            continue;
-                        }
-                    }
-                }
-                else
-                {
-                    endIndex = mentionIndex + word.Length;
-                }
-
-                snippet = text.Substring(startIndex, endIndex - startIndex + 1);
-                if(!(snippet.Last() == '.'))
-                {
-                    snippet = snippet + "...";
-                }
-                
-                break;
             }
 
-            return snippet;
+
+            if (mentionIndex == 0)
+            {
+                startIndex = 0;
+            }
+            else
+            {
+                while (wordCount < 25)
+                {
+                    if (text[mentionIndex - i] == '.' | text[mentionIndex - i] == '\\' | text[mentionIndex - i] == '>' | text[mentionIndex - i] == '?' | text[mentionIndex - i] == '!')
+                    {
+                        startIndex = mentionIndex - i + 1;
+                        break;
+                    }
+                    else if (text[mentionIndex - i] == ' ')
+                    {
+                        wordCount = wordCount + 1;
+                        startIndex = mentionIndex - i + 1;
+                        i = i + 1;
+                        continue;
+                    }
+                    else if (mentionIndex - i == 0)
+                    {
+                        startIndex = 0;
+                        break;
+                    }
+                    else
+                    {
+                        i = i + 1;
+                        continue;
+                    }
+                }
+            }
+
+            i = 1;
+
+            if (wordCount < 25)
+            {
+                while (wordCount < 25)
+                {
+                    if (text[mentionIndex + i] == ' ')
+                    {
+                        wordCount = wordCount + 1;
+                        endIndex = mentionIndex + i;
+                        i = i + 1;
+                    }
+                    else if (mentionIndex + i == text.Length - 1)
+                    {
+                        endIndex = mentionIndex + i;
+                        break;
+                    }
+                    else
+                    {
+                        i = i + 1;
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                endIndex = mentionIndex + word.Length;
+            }
+
+            snippet = text.Substring(startIndex, endIndex - startIndex + 1);
+            if (!(snippet.Last() == '.'))
+            {
+                snippet = snippet + "...";
+            }
+
+            snippetFlag = true;
         }
+
+        GetObject response = new GetObject();
+        response.extract = snippet;
+        response.items = new List<Item>();
+
+         foreach (string item in matchedWords)
+         {
+            response.items.Add(new Item { match = item });                
+         }
+
+        return response;
+    }
+
+    public class GetObject
+    {
+        public string extract;
+        public List<Item> items { get; set; }
+    }
+
+     public class Item
+    {
+        public string match { get; set; }
+    }
 
 
     }
