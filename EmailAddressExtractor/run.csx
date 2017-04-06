@@ -55,7 +55,9 @@ private static List<dynamic> ParseAddresses(string input, string addressType)
 {
     List<dynamic> result = new List<dynamic>();
 
-    foreach (Match match in Regex.Matches(input, "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"))
+	// RegEx defined at https://msdn.microsoft.com/en-us/library/01escwtf.aspx
+    foreach (Match match in Regex.Matches(input, "(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                                                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))"))
     {
         result.Add(CreateAddress(match.Value, addressType));
     }
