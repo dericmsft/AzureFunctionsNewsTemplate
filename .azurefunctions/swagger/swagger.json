@@ -106,53 +106,20 @@
           {
             "name": "toAddresses",
             "in": "body",
-            "description": "List of TO addresses from E-Mail messages",
+            "description": "List of addresses from E-Mail messages",
             "required": false,
             "schema": {
               "type": "object",
               "properties": {
                 "toAddresses": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "ccAddresses",
-            "in": "body",
-            "description": "List of CC addresses from E-Mail messages",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {
+                },
                 "ccAddresses": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "bccAddresses",
-            "in": "body",
-            "description": "List of BCC addresses from E-Mail messages",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {
+                },
                 "bccAddresses": {
                   "type": "string"
-                }
-              }
-            }
-          },
-          {
-            "name": "fromAddress",
-            "in": "body",
-            "description": "FROM address in E-Mail messages",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {
+                },
                 "fromAddress": {
                   "type": "string"
                 }
