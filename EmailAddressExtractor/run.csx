@@ -14,7 +14,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     List<dynamic> result = new List<dynamic>();
 
-    if (data.toAddresses == null && data.fromAddress == null && data.ccAddresses == null && data.bccAddresses == null) {
+    if (data == null || (data.toAddresses == null && data.fromAddress == null && data.ccAddresses == null && data.bccAddresses == null)) {
         return req.CreateResponse(HttpStatusCode.BadRequest, new {
             error = "Please pass fromAddress, toAddresses, ccAddresses, or bccAddresses in the input object"
         });
