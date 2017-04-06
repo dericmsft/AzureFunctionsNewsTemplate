@@ -112,16 +112,20 @@
               "type": "object",
               "properties": {
                 "toAddresses": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "List of TO addresses as string"
                 },
                 "ccAddresses": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "List of CC addresses as string"
                 },
                 "bccAddresses": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "List of BCC addresses as string"
                 },
                 "fromAddress": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "Address the email was sent FROM"
                 }
               }
             }
