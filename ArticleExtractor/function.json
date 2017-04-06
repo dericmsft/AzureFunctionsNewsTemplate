@@ -5,7 +5,10 @@
       "name": "req",
       "type": "httpTrigger",
       "direction": "in",
-      "webHookType": "genericJson"
+      "webHookType": "genericJson",
+      "methods": [
+        "post"
+      ]
     },
     {
       "name": "res",
