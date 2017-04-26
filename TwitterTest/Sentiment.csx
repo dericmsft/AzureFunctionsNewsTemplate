@@ -25,7 +25,7 @@ using System.Web;
 
 
 
-    class Sentiment
+    public class Sentiment
     {
         public async Task<string> MakeSentimentRequest(dynamic tweet)
         {
