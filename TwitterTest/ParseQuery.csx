@@ -284,7 +284,7 @@ using System.Web;
                         sqlTables.accounts["accountid"] = id;
                         int response = 0;
                         response = sqlHelper.ExecuteSqlScalar(
-                        $"Select count(1) FROM pbist_twitter.accounts WHERE tweetid = '{sqlTables.accounts["tweetid"]}'");
+                        $"Select count(1) FROM pbist_twitter.accounts WHERE accountid = '{sqlTables.accounts["accountid"]}'");
                         if (response == 0)
                         {
                             try
