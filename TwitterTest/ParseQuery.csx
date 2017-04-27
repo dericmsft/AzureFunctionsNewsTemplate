@@ -280,6 +280,8 @@ using System.Web;
                         var obj = JObject.Parse(responseString);
                         var id = obj.SelectToken("init_data")?.SelectToken("profile_user")?.SelectToken("id_str")?.ToString();
                         words.Add(item, id);
+                        sqlTables.accounts["accountname"] = item;
+                        sqlTables.accounts["accountid"] = id;
                         int response = 0;
                         response = sqlHelper.ExecuteSqlScalar(
                         $"Select count(1) FROM pbist_twitter.accounts WHERE tweetid = '{sqlTables.accounts["tweetid"]}'");
