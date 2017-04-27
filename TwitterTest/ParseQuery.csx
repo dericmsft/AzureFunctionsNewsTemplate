@@ -278,6 +278,17 @@ using System.Web;
                         var obj = JObject.Parse(responseString);
                         var id = obj.SelectToken("init_data")?.SelectToken("profile_user")?.SelectToken("id_str")?.ToString();
                         words.Add(item, id);
+                        int response = 0;
+                        response = sqlHelper.ExecuteSqlScalar(
+                        $"Select count(1) FROM pbist_twitter.tweets_processed WHERE tweetid = '{sqlTables.processedTweets["tweetid"]}'");
+                        if (response == 0)
+                        {
+                            try
+                            {
+                                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.accounts", sqlTables.accounts));
+                            }
+                            catch (Exception e) { }
+                        }
                     }
                     else
                     {
