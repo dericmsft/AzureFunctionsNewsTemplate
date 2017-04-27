@@ -94,4 +94,10 @@ using System.Web;
             {"searchterm", null},
             {"accountid", null},
             {"direction", null} };
+        
+       public Dictionary<string, string> accounts = new Dictionary<string, string>()
+       {
+            {"accountname", null},
+            {"accountid", null}
+       };       
     }
