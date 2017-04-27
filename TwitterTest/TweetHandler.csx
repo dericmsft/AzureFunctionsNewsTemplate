@@ -131,12 +131,12 @@ using System.Web;
             {
                 sqlTables.originalTweets["twitterhandle"] = tweet.OriginalTweet.UserDetails.UserName;
                 if (searchTermWithId.Count > 0)
-                {
-                    sqlTables.searchTerms["direction"] = "null";
+                {                    
                     foreach (var entry in searchTermWithId)
                     {
-                        sqlTables.searchTerms["searchTerm"] = entry.Key;
-                        sqlTables.searchTerms["accountId"] = entry.Value;
+                        sqlTables.searchTerms["direction"] = "null";
+                        sqlTables.searchTerms["searchterm"] = entry.Key;
+                        sqlTables.searchTerms["accountid"] = entry.Value;
                         directionCheck.HashtagDirectionCheck(entry, sqlTables, tweet, connectionString, " Retweet");
                         if (entry.Value != null)
                         {
@@ -157,8 +157,8 @@ using System.Web;
                     foreach (var entry in searchTermWithId)
                     {
                         sqlTables.searchTerms["direction"] = "null";
-                        sqlTables.searchTerms["searchTerm"] = entry.Key;
-                        sqlTables.searchTerms["accountId"] = entry.Value;
+                        sqlTables.searchTerms["searchterm"] = entry.Key;
+                        sqlTables.searchTerms["accountid"] = entry.Value;
                         directionCheck.HashtagDirectionCheck(entry, sqlTables, tweet, connectionString);
                         if (entry.Value != null)
                         {
