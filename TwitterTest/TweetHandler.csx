@@ -88,7 +88,7 @@ using System.Web;
             }
 
             //Figure out if keywords are search terms or accounts
-            Dictionary<string, string> searchTermWithId = await parseQuery.checkIfAccount(words);
+            Dictionary<string, string> searchTermWithId = await parseQuery.checkIfAccount(words, connectionString);
 
             //Work out sentiment of tweet
             Sentiment sentimentCheck = new Sentiment();
