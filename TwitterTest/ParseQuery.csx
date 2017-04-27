@@ -256,9 +256,11 @@ using System.Web;
         }
 
 
-    public async Task<Dictionary<string, string>> checkIfAccount(List<string> keywords)
+    public async Task<Dictionary<string, string>> checkIfAccount(List<string> keywords, string connectionString)
         {
             Dictionary<string, string> words = new Dictionary<string, string>();
+            SqlHelpers sqlHelper = new SqlHelpers(connectionString);
+            SqlTables sqlTables = new SqlTables();
 
             foreach (var item in keywords)
             {
@@ -280,7 +282,7 @@ using System.Web;
                         words.Add(item, id);
                         int response = 0;
                         response = sqlHelper.ExecuteSqlScalar(
-                        $"Select count(1) FROM pbist_twitter.tweets_processed WHERE tweetid = '{sqlTables.processedTweets["tweetid"]}'");
+                        $"Select count(1) FROM pbist_twitter.accounts WHERE tweetid = '{sqlTables.accounts["tweetid"]}'");
                         if (response == 0)
                         {
                             try
