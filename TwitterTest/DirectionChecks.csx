@@ -27,14 +27,14 @@ using Newtonsoft.Json.Linq;
             {
                 sqlTable.searchTerms["direction"] = "Text" + retweet;
                 sqlTable.searchTerms["tweetid"] = tweet.TweetId;
-                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
             }
             string hashtag = "#" + currentEntry.Key.ToLower();
             if (tweetText.ToLower().Contains(hashtag))
             {
                 sqlTable.searchTerms["direction"] = "Hashtag" + retweet;
                 sqlTable.searchTerms["tweetid"] = tweet.TweetId;
-                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
             }
         }
 
@@ -49,14 +49,14 @@ using Newtonsoft.Json.Linq;
                 {
                     sqlTable.searchTerms["direction"] = "Outbound Reply" + retweet;
                 }
-                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
             }
             else if (tweet.TweetInReplyToUserId != null)
             {
                 if (currentEntry.Value == (tweet.TweetInReplyToUserId.ToString()))
                 {
                     sqlTable.searchTerms["direction"] = "Inbound Reply" + retweet;
-                    sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                    sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
                 }
             }
             else if (retweet != "")
@@ -64,7 +64,7 @@ using Newtonsoft.Json.Linq;
                 if (currentEntry.Value == (tweet.OriginalTweet.UserDetails.Id.ToString()))
                 {
                     sqlTable.searchTerms["direction"] = "Retweet of Outbound";
-                    sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                    sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
                 }
             }
             if (userMentions != null && userMentions.HasValues)
@@ -75,7 +75,7 @@ using Newtonsoft.Json.Linq;
                     if (currentEntry.Value == (uid.ToString()))
                     {
                         sqlTable.searchTerms["direction"] = "Inbound" + retweet;
-                        sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.searchTerms", sqlTable.searchTerms));
+                        sqlHelper.ExecuteSqlNonQuery(sqlHelper.generateSQLQuery("pbist_twitter.search_terms", sqlTable.searchTerms));
                     }
                 }
             }
