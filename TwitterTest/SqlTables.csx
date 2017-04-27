@@ -91,7 +91,7 @@ using System.Web;
         public Dictionary<string, string> searchTerms = new Dictionary<string, string>()
         {
             {"tweetid", null},
-            {"searchTerm", null},
-            {"accountId", null},
+            {"searchterm", null},
+            {"accountid", null},
             {"direction", null} };
     }
