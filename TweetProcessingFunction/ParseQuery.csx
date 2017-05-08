@@ -282,10 +282,10 @@ using System.Web;
                         words.Add(item, id);
                         sqlTables.accounts["accountname"] = item;
                         sqlTables.accounts["accountid"] = id;
-                        int response = 0;
-                        response = sqlHelper.ExecuteSqlScalar(
+                        int response2 = 0;
+                        response2 = sqlHelper.ExecuteSqlScalar(
                         $"Select count(1) FROM pbist_twitter.accounts WHERE accountid = '{sqlTables.accounts["accountid"]}'");
-                        if (response == 0)
+                        if (response2 == 0)
                         {
                             try
                             {
