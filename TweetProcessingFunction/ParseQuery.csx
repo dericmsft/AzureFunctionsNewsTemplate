@@ -280,7 +280,7 @@ using System.Web;
                         var obj = JObject.Parse(responseString);
                         var id = obj.SelectToken("init_data")?.SelectToken("profile_user")?.SelectToken("id_str")?.ToString();
                         words.Add(item, id);
-                        sqlTables.accounts["accountname"] = item;
+                        sqlTables.accounts["accountname"] = accountTrimmed;
                         sqlTables.accounts["accountid"] = id;
                         int response2 = 0;
                         response2 = sqlHelper.ExecuteSqlScalar(
