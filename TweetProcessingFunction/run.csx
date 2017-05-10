@@ -52,5 +52,5 @@ using System.Web;
             {
                 await tweetHandler.ParseTweet(jsonContent, i);
             }
-	    return req.CreateResponse(HttpStatusCode.OK, "");
+	    return req.CreateResponse(HttpStatusCode.OK, i);
         }
