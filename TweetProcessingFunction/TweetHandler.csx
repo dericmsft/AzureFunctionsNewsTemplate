@@ -40,7 +40,7 @@ using System.Web;
         private JObject tweetObj = new JObject();
         private string connectionString;
 
-        public async Task<bool> ParseTweet(string entireTweet, bool i)
+        public async Task<bool> ParseTweet(string entireTweet, int i)
         {
             // Initialize SQL helpers and tables
             SqlHelpers sqlHelpers = new SqlHelpers(connectionString);
@@ -54,10 +54,9 @@ using System.Web;
             string searchTerms = sqlHelpers.ExecuteSqlQuery("select QueryString FROM pbist_twitter.twitter_query where Id = \'1\'", "QueryString");
 
             //Update tweet ID to ensure we pick up onlu new tweets
-            if (i == true)
+            if (i == 0)
             {
                 sqlHelpers.ExecuteSqlNonQuery($"UPDATE pbist_twitter.twitter_query SET TweetId='{tweet["TweetId"]}' WHERE Id = 1");
-                i = false;
             }
 
             //Split out search term into separate keywords
