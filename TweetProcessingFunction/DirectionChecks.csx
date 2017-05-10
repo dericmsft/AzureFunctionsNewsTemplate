@@ -45,7 +45,7 @@ using Newtonsoft.Json.Linq;
                 sqlTable.searchTerms["direction"] = "Hashtag" + retweet;
                 sqlTable.searchTerms["tweetid"] = tweet.TweetId;
                 response = sqlHelper.ExecuteSqlScalar(
-                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{"sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
+                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
                 if (response == 0)
                 {
                     try
@@ -71,7 +71,7 @@ using Newtonsoft.Json.Linq;
                     sqlTable.searchTerms["direction"] = "Outbound Reply" + retweet;
                 }
                 response = sqlHelper.ExecuteSqlScalar(
-                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{"sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
+                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
                 if (response == 0)
                 {
                     try
@@ -87,7 +87,7 @@ using Newtonsoft.Json.Linq;
                 {
                     sqlTable.searchTerms["direction"] = "Inbound Reply" + retweet;
                 response = sqlHelper.ExecuteSqlScalar(
-                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{"sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
+                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
                 if (response == 0)
                 {
                     try
@@ -104,7 +104,7 @@ using Newtonsoft.Json.Linq;
                 {
                sqlTable.searchTerms["direction"] = "Retweet of Outbound";
                response = sqlHelper.ExecuteSqlScalar(
-                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{"sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
+                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
                 if (response == 0)
                 {
                     try
@@ -123,7 +123,7 @@ using Newtonsoft.Json.Linq;
                     {
                         sqlTable.searchTerms["direction"] = "Inbound" + retweet;
                 response = sqlHelper.ExecuteSqlScalar(
-                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{"sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
+                $"Select count(1) FROM pbist_twitter.search_terms WHERE tweetid = '{sqlTables.search_terms["tweetid"]}'AND direction = '{sqlTables.search_terms["direction"]) AND searchterm = '{currentEntry.Key}'");
                 if (response == 0)
                 {
                     try
