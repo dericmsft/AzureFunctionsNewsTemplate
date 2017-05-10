@@ -33,7 +33,7 @@ using System.Web;
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 			string jsonContent = await req.Content.ReadAsStringAsync();
             var tweets = JsonConvert.DeserializeObject(jsonContent);
-            bool i = true;
+            int i = 0;
 
             //Initialize tweet handler
             TweetHandler tweetHandler = new TweetHandler(connectionString);
@@ -45,6 +45,7 @@ using System.Web;
                 {
                     var individualtweet = item.ToString();
                     await tweetHandler.ParseTweet(individualtweet, i);
+                    i = i + 1;
                 }
             }
             else
