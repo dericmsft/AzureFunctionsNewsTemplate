@@ -21,7 +21,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 Id = "1"
             };
 
-            string subscriptionKey = System.Configuration.ConfigurationManager.ConnectionStrings["subscriptionKey"].ConnectionString;
+            string subscriptionKey = System.Configuration.ConfigurationManager.ConnectionStrings["apiKey"].ConnectionString;
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
             var uri = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
