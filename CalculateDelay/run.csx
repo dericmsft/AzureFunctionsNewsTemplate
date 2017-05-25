@@ -18,11 +18,30 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     log.Info(data.ToString());
 
+    int previousCount;
+    int currentCount; 
 
-    int previousCount = data.PreviousCount;
+    if(data.PreviousCount == "")
+    {
+        previousCount = 0;
+    }
+    else
+    {
+        previousCount = data.PreviousCount;
+    }
+
+    if(data.CurrentCount == "")
+    {
+        currentCount = 0;
+    }
+    else
+    {
+        currentCount = data.CurrentCount;
+    }
+
     int delay = data.Delay;
-    int currentCount = data.CurrentCount;
     int delta = currentCount - previousCount;
+
 
 
     if (currentCount < 40)
