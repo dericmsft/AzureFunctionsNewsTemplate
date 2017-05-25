@@ -44,7 +44,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     }
 
     // log.Info($"{data}");
-    return req.CreateResponse(HttpStatusCode.OK, "");
+    return req.CreateResponse(HttpStatusCode.OK, i);
 }
 
 public class TweetHandler
