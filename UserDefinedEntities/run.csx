@@ -44,7 +44,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     try
     {
-        connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ToString();
+        connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
     }
     catch (Exception e)
     {
