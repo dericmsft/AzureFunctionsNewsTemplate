@@ -70,6 +70,7 @@ public class TweetHandler
             {"masterid", null},
             {"tweet", null},
             {"twitterhandle", null},
+        {"userlocation", null},
             {"sentiment", null},
             {"lang", null},
             {"sentimentBin", null},
@@ -85,6 +86,7 @@ public class TweetHandler
             {"dateorig", null},
             {"authorimage_url", null},
             {"username", null},
+        {"userlocation", null},
             {"hourofdate", null},
             {"minuteofdate", null},
             {"direction", "Text"},
@@ -168,11 +170,11 @@ public class TweetHandler
         originalTweets["sentimentPosNeg"] = "Undefined";
         originalTweets["sentiment"] = null;
         originalTweets["sentimentBin"] = null;
-        
-		string sentiment = await MakeSentimentRequest(tweet);
 
-		
-		if (sentiment != null)
+        string sentiment = await MakeSentimentRequest(tweet);
+
+
+        if (sentiment != null)
         {
             sentiment = (double.Parse(sentiment) * 2 - 1).ToString(CultureInfo.InvariantCulture);
             string sentimentBin = (Math.Floor(double.Parse(sentiment) * 10) / 10).ToString(CultureInfo.InvariantCulture);
@@ -200,6 +202,7 @@ public class TweetHandler
         {
             processedTweets["direction"] = "Text Retweet";
             originalTweets["twitterhandle"] = tweet.OriginalTweet.UserDetails.UserName;
+            originalTweets["userlocation"] = tweet.OriginalTweet.UserDetails.Location;
             if (dictionary.Count > 0)
             {
                 foreach (var entry in dictionary)
@@ -215,6 +218,7 @@ public class TweetHandler
         else
         {
             originalTweets["twitterhandle"] = tweet.UserDetails.UserName;
+            originalTweets["userlocation"] = tweet.UserDetails.Location;
             if (dictionary.Count > 0)
             {
                 foreach (var entry in dictionary)
@@ -241,6 +245,7 @@ public class TweetHandler
         //Save media and follower metadata about processed tweets
         processedTweets["authorimage_url"] = tweet.UserDetails.ProfileImageUrl;
         processedTweets["username"] = tweet.UserDetails.UserName;
+        processedTweets["userlocation"] = tweet.UserDetails.Location;
         processedTweets["user_followers"] = tweet.UserDetails.FollowersCount;
         processedTweets["user_friends"] = tweet.UserDetails.FavouritesCount;
         processedTweets["user_favorites"] = tweet.UserDetails.FriendsCount;
@@ -504,13 +509,13 @@ public class TweetHandler
 
         var sentimentResponseBody = await sentimentResponse.Content.ReadAsStringAsync();
         dynamic sentimentDeserialized = JsonConvert.DeserializeObject(sentimentResponseBody);
-		
-	    string sentimentScore = null;
+
+        string sentimentScore = null;
         if (sentimentDeserialized.documents.ToString() != "[]")
         {
             sentimentScore = sentimentDeserialized.documents[0].score.ToString();
         }
-		
+
         return sentimentScore;
 
 
