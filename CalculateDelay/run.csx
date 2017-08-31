@@ -52,7 +52,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     {
         if (delta > 30)
         {
-            delay = 3;
+            delay = 1;
         }
         else
         {
@@ -61,9 +61,9 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     }
 
 
-    if (delay < 3)
+    if (delay < 1)
     {
-        delay = 3;
+        delay = 1;
     }
     else if (delay > 30)
     {
