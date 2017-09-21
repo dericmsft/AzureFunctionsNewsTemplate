@@ -82,7 +82,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         conn.Open();
         SqlBulkCopy bulkCopy = new SqlBulkCopy(conn);
         bulkCopy.BulkCopyTimeout = 300; // in seconds
-        bulkCopy.DestinationTableName = "pbist_apimgmt.CallExtendedEdgeList_STAGE";
+        bulkCopy.DestinationTableName = "pbist_apimgmt.callextendededgelist_staging";
         bulkCopy.WriteToServer(memoryTable);
     }
 
