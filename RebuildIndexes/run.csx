@@ -15,10 +15,6 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         using (SqlCommand cmd = new SqlCommand("UPDATE pbist_apimgmt.[GeoLite2-City-Blocks-IPv4] SET IPpart=LEFT([network], CHARINDEX('.', [network]) - 1)", targetConnection) { CommandTimeout = 0 })
         {
             cmd.ExecuteNonQuery();
-            cmd.CommandText = "ALTER INDEX [IX_GeoLite2-City-Blocks-IPv4] ON pbist_apimgmt.[GeoLite2-City-Blocks-IPv4] REBUILD";
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = "ALTER INDEX [IX_GeoLite2-City-Blocks-IPv4_IPPart] ON pbist_apimgmt.[GeoLite2-City-Blocks-IPv4] REBUILD";
-            cmd.ExecuteNonQuery();
         }
     }
    return req.CreateResponse(HttpStatusCode.OK, "");
