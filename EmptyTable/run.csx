@@ -10,9 +10,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     using (SqlConnection targetConnection = new SqlConnection(connStr))
     {
         targetConnection.Open();
-        using (SqlCommand cmd = new SqlCommand("TRUNCATE TABLE pbist_apimgmt.[GeoLite2-City-Blocks-IPv4];" +
-                                                "ALTER INDEX [IX_GeoLite2-City-Blocks-IPv4] ON pbist_apimgmt.[GeoLite2-City-Blocks-IPv4] DISABLE;" +
-                                                "ALTER INDEX [IX_GeoLite2-City-Blocks-IPv4_IPPart] ON pbist_apimgmt.[GeoLite2-City-Blocks-IPv4] DISABLE;", targetConnection) { CommandTimeout = 0 })
+        using (SqlCommand cmd = new SqlCommand("TRUNCATE TABLE pbist_apimgmt.[GeoLite2-City-Blocks-IPv4];" , targetConnection) { CommandTimeout = 0 })
         {
             cmd.ExecuteNonQuery();
         }
