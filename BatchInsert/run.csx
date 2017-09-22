@@ -41,6 +41,10 @@ public static async Task<int> Run(HttpRequestMessage req, TraceWriter log)
         {
             var splitLine = lines[i].Split(',');
             DataRow dr = blocksTable.NewRow();
+            if (!string.IsNullOrEmpty(splitLine[0]))
+            {
+                splitLine[0] = splitLine[0].Split('.')[0];
+            }
             for (int j = 0; j < blocksTable.Columns.Count; j++)
             {       
                 dr[j] = string.IsNullOrEmpty(splitLine[j]) ? DBNull.Value : (object)splitLine[j];
