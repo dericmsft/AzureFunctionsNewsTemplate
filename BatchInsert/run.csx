@@ -41,11 +41,13 @@ public static async Task<int> Run(HttpRequestMessage req, TraceWriter log)
         {
             var splitLine = lines[i].Split(',');
             DataRow dr = blocksTable.NewRow();
+
             if (!string.IsNullOrEmpty(splitLine[0]))
             {
-                splitLine[0] = splitLine[0].Split('.')[0];
+               dr[10] = string.IsNullOrEmpty(splitLine[0]) ? DBNull.Value : (object)splitLine[0].Split('.')[0];
             }
-            for (int j = 0; j < blocksTable.Columns.Count; j++)
+
+            for (int j = 0; j < blocksTable.Columns.Count-1; j++)
             {       
                 dr[j] = string.IsNullOrEmpty(splitLine[j]) ? DBNull.Value : (object)splitLine[j];
             }
@@ -80,5 +82,6 @@ public static async Task<int> Run(HttpRequestMessage req, TraceWriter log)
     dt.Columns.Add("latitude", typeof(string));
     dt.Columns.Add("longitude", typeof(string));
     dt.Columns.Add("accuracy_radius", typeof(int));
+    dt.Columns.Add("IPpart", typeof(int));
     return dt;
 }
