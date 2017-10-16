@@ -14,7 +14,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         {
             //Request headers
             string apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["apiKey"].ConnectionString;
-            string url = "https://api.cognitive.microsoft.com/bing/v5.0/news/search?q=microsoft";
+            string url = "https://api.cognitive.microsoft.com/bing/v7.0/news/search?q=microsoft";
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
             client.BaseAddress = new Uri(url);
 
