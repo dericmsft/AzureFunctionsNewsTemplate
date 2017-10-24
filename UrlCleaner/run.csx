@@ -19,9 +19,10 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     
     UriId returnObject = new UriId
     {
-        newUri = m.Groups[2].Value,
+        newUri = (string)data.url,
         triggerId = m.Groups[1].Value
     };
+
 
     return req.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(returnObject));
 }
