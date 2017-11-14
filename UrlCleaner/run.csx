@@ -20,7 +20,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     UriId returnObject = new UriId
     {
         newUri = (string)data.url,
-        triggerId = m.Groups[1].Value
+        triggerId = DateTime.Today.Ticks.ToString()
     };
 
 
