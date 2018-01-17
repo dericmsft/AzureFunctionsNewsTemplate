@@ -268,10 +268,16 @@ public class TweetHandler
         }
 
         //Save processed tweets into SQL
-        int response = 0;
-        response = ExecuteSqlScalar(
-            $"Select count(1) FROM pbist_twitter.tweets_processed WHERE tweetid = '{processedTweets["tweetid"]}'");
-        if (response == 0)
+        int responseProcessed = 0;
+        int responseNormalized = 0;
+
+        responseProcessed = ExecuteSqlScalar(
+            $"Select count(*) FROM pbist_twitter.tweets_processed WHERE tweetid = '{processedTweets["tweetid"]}'");
+        
+        responseNormalized = ExecuteSqlScalar(
+            $"Select count(*) FROM pbist_twitter.tweets_normalized WHERE masterid = '{processedTweets["masterid"]}'");     
+
+        if (responseProcessed == 0 && responseNormalized > 0)
         {
             try
             {
@@ -281,36 +287,38 @@ public class TweetHandler
         }
 
         string text = tweet.TweetText.ToString();
-        //Populate hashtag slicer table
-        if (text.Contains("#"))
-        {
-            hashtagSlicer["tweetid"] = tweet.TweetId;
-            hashtagmentions(text, '#', "facet", "pbist_twitter.hashtag_slicer", hashtagSlicer);
-        }
-
-        //Populate author hashtag network table
-        if (text.Contains("#"))
-        {
-            authorHashtagGraph["tweetid"] = tweet.TweetId;
-            authorHashtagGraph["author"] = tweet.UserDetails.UserName;
-            hashtagmentions(text, '#', "hashtag", "pbist_twitter.authorhashtag_graph", authorHashtagGraph);
-        }
-
-        //Populate mention slicer table
-        if (text.Contains("@"))
-        {
-            mentionSlicer["tweetid"] = tweet.TweetId;
-            hashtagmentions(text, '@', "facet", "pbist_twitter.mention_slicer", mentionSlicer);
-        }
-
-        //Populate author mention network table
-        if (text.Contains("@"))
-        {
-            authorMentionGraph["tweetid"] = tweet.TweetId;
-            authorMentionGraph["author"] = tweet.UserDetails.UserName;
-            hashtagmentions(text, '@', "mention", "pbist_twitter.authormention_graph", authorMentionGraph);
-        }
-
+	if (responseProcessed == 0 && responseNormalized > 0)
+        {		
+        	//Populate hashtag slicer table
+        	if (text.Contains("#"))
+        	{
+        	    	hashtagSlicer["tweetid"] = tweet.TweetId;
+			hashtagmentions(text, '#', "facet", "pbist_twitter.hashtag_slicer", hashtagSlicer);
+        	}
+	
+        	//Populate author hashtag network table
+        	if (text.Contains("#"))
+        	{
+        	    authorHashtagGraph["tweetid"] = tweet.TweetId;
+        	    authorHashtagGraph["author"] = tweet.UserDetails.UserName;
+        	    hashtagmentions(text, '#', "hashtag", "pbist_twitter.authorhashtag_graph", authorHashtagGraph);
+        	}
+	
+        	//Populate mention slicer table
+        	if (text.Contains("@"))
+        	{
+        	    mentionSlicer["tweetid"] = tweet.TweetId;
+        	    hashtagmentions(text, '@', "facet", "pbist_twitter.mention_slicer", mentionSlicer);
+        	}
+	
+        	//Populate author mention network table
+        	if (text.Contains("@"))
+        	{
+        	    authorMentionGraph["tweetid"] = tweet.TweetId;
+        	    authorMentionGraph["author"] = tweet.UserDetails.UserName;
+        	    hashtagmentions(text, '@', "mention", "pbist_twitter.authormention_graph", authorMentionGraph);
+        	}
+	}
         return true;
     }
 
